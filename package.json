@@ -1,7 +1,6 @@
 {
   "name": "FruitsProject",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "mongodb": "^3.6.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mark-james-coder/mongoDB_setup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mark-james-coder/mongoDB_setup/issues"
+  },
+  "homepage": "https://github.com/mark-james-coder/mongoDB_setup#readme",
+  "description": ""
 }

@@ -17,7 +17,7 @@ client.connect(function(err) {
 
   const db = client.db(dbName);
 
-  insertDocuments(db, function() {
+  findDocuments(db, function() {
     client.close();
   });
 });

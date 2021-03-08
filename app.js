@@ -1,63 +1,54 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+const mongoose = require("mongoose");
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
+mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Database Name
-const dbName = 'fruitsDB';
+const fruitSchema = new mongoose.Schema({
+  name: String,
+  rating: Number,
+  review: String
+})
 
-// Create a new MongoClient
-const client = new MongoClient(url);
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-// Use connect method to connect to the Server
-client.connect(function(err) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
+const fruit = new Fruit ({
+  name: "Apple",
+  rating: 8,
+  review: "An apple a day..."
+})
 
-  const db = client.db(dbName);
+// fruit.save();
 
-  findDocuments(db, function() {
-    client.close();
-  });
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number
+})
+
+const Person = mongoose.model("Person", personSchema);
+
+const person = new Person ({
+  name: "John",
+  age: 37
+})
+
+// person.save();
+
+// const findDocuments = function(db, callback) {
+//   // Get the documents collection
+//   const collection = db.collection('fruits');
+//   // Find some documents
+//   collection.find({}).toArray(function(err, fruits) {
+//     assert.equal(err, null);
+//     console.log("Found the following records");
+//     console.log(fruits)
+//     callback(fruits);
+//   });
+// }
+
+Fruit.find(function(err, fruits) {
+  if (err) {
+    console.log(err);
+  } else {
+    mongoose.connection.close();
+    console.log(fruits);
+  }
 });
-
-const insertDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection('fruits');
-  // Insert some documents
-  collection.insertMany([
-    {
-      name: "Apple",
-      score: 7,
-      verdict: "great"
-
-     }, {
-       name: "Orange",
-       score: 5,
-       verdict: "sweet"
-     }, {
-       name: "Banana",
-       score: 9,
-       verdict: "energizing"
-     }
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3, result.result.n);
-    assert.equal(3, result.ops.length);
-    console.log("Inserted 3 documents into the collection");
-    callback(result);
-  });
-}
-
-const findDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection('fruits');
-  // Find some documents
-  collection.find({}).toArray(function(err, fruits) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(fruits)
-    callback(fruits);
-  });
-}
